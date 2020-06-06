@@ -1,0 +1,6 @@
+[submodule "AM-KHUDOYAROVA-mephi-2020-frontend"]
+	path = AM-KHUDOYAROVA-mephi-2020-frontend
+	url = https://github.com/Neprincessa/AM-KHUDOYAROVA-mephi-2020-frontend
+[submodule "AM-KHUDOYAROVA-mephi-2020-backend"]
+	path = AM-KHUDOYAROVA-mephi-2020-backend
+	url = https://github.com/Neprincessa/AM-KHUDOYAROVA-mephi-2020-backend

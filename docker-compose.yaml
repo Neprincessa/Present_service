@@ -1,0 +1,57 @@
+version: "2"
+
+services:
+  mephi-postgres:
+    container_name: mephi-postgres
+    build: ./services/api/docker/postgres
+    image: mephi-postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - ./services/api/.env
+    volumes:
+      - ./services/api/docker-data/postgres/data:/var/lib/postgresql/data
+    environment:
+      PGDATA: /var/lib/postgresql/data/
+    restart: always
+
+  mephi-minio:
+    container_name: mephi-minio
+    image: minio/minio
+    ports:
+      - 9000:9000
+    volumes:
+      - ./services/api/docker-data/minio/data:/data
+    command: server /data
+    env_file:
+      - ./services/api/.env
+    restart: always
+
+  mephi-nodejs:
+    container_name: mephi-nodejs
+    build: ./services/api
+    image: mephi-nodejs
+    volumes:
+      - ./services/api/.:/app
+      - /app/node_modules
+    ports:
+      - 8090:3000
+      - 5555:5555
+    env_file:
+      - ./services/api/.env
+    depends_on:
+      - mephi-postgres
+      - mephi-minio
+    command: npm run dev
+    restart: always
+
+  mephi-client:
+    build: ./services/client
+    ports:
+      - "80:80"
+    container_name: mephi-client
+
+networks:
+  default:
+    external:
+      name: mephi
